@@ -1,0 +1,51 @@
+using System;
+using System.Linq;
+using System.Text.RegularExpressions;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            for (int i = 0; i < n; i++)
+            {
+                string input = Console.ReadLine();
+                
+                string ValidBoss = "";
+                
+                string ValidTitle = "";
+                bool valid = true;
+                bool exist = false;
+                Regex regexName = new Regex(@"[|]([A-Z]+)[|]:[#]([A-Za-z]+ [A-Za-z]+)[#]");
+                MatchCollection matches = regexName.Matches(input);
+                foreach (Match item in matches)
+                { ValidBoss = item.Groups[1].Value;
+                    ValidTitle = item.Groups[2].Value;
+                    exist = true;
+                    if (ValidBoss.Length < 4)
+                    {
+                         valid = false;
+                        
+                    }
+                }
+              
+                
+                
+
+                if (valid==true&&exist==true)
+                {
+                    Console.WriteLine($"{ValidBoss}, The {ValidTitle}");
+                    Console.WriteLine($">> Strength: {ValidBoss.Length}");
+                    Console.WriteLine($">> Armour: {ValidTitle.Length}");
+
+
+                }
+                else
+                { Console.WriteLine("Access denied!"); }
+            }
+
+        }
+    }
+}
