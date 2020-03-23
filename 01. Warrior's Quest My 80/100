@@ -1,0 +1,116 @@
+using System;
+using System.Linq;
+using System.Text;
+
+namespace Final_Exams
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+
+            string word = Console.ReadLine();
+            while (true)
+            { string result = "";
+                string input = Console.ReadLine();
+                if (input == "For Azeroth")
+                { break; }
+                string [] token =input.Split(" ").ToArray();
+                switch (token[0])
+                {
+                    case "GladiatorStance":
+                     result=   word.ToUpper();
+                        word = result;
+                        Console.WriteLine(word);
+                        
+                break;
+                    case "DefensiveStance":
+                    result=    word.ToLower();
+                        word = result;
+                        Console.WriteLine(word);
+                        break;
+                    case "Dispel":
+                        int index = int.Parse(token[1]);
+                        char letter = char.Parse(token[2]);
+                        if (word.Length -1< index || index < 0)
+                        { Console.WriteLine("Dispel too weak.");
+                            continue;
+                        }
+                        else
+                        {
+                            char old = word[(index)];
+                          result=  word.Replace(old, letter);
+                            word = result;
+                            Console.WriteLine("Success!");
+                            
+                        }
+                        break;
+                    case "Target":
+                        if (token[1] == "Change")
+                        {
+                            string subst = token[2];
+                            string substrNew = token[3];
+
+                            result = word.Replace(subst, substrNew);
+
+                            word = result;
+                            Console.WriteLine(word);
+                        }
+                        else if (token[1] == "Remove")
+                        {
+                            var substring = token[2];
+
+                            if (word.Contains(substring))
+                            {
+                                var indexH = word.IndexOf(substring);
+
+                                word = word.Remove(indexH, substring.Length);
+
+
+                                //  string substring = token[2];
+                                //string currentWord = word;
+                                //string sb = "";
+                                //while (true)
+                                //{
+
+                                //    int start2 = currentWord.IndexOf(substring[0]);
+                                //    int counter = 0;
+                                //    for (int i = 0; i < substring.Length; i++)
+                                //    {
+
+                                //        sb += $"{currentWord[start2 + i]}";
+
+                                //    }
+
+                                //    if (sb == substring)
+                                //    {
+                                //        result = word.Remove(start2 + counter, substring.Length);
+                                //        word = result;
+                                //        break;
+                                //    }
+                                //    else
+                                //    {
+                                //        sb = "";
+                                //        currentWord = currentWord.Remove(start2, 1);
+                                //        counter++;
+                                //    }
+                                //}
+
+
+                                Console.WriteLine(word);
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Command doesn't exist!");
+                                continue; }
+                        break;
+                    default:
+                        Console.WriteLine("Command doesn't exist!");
+                        break;
+                }
+
+            }
+        }
+    }
+}
