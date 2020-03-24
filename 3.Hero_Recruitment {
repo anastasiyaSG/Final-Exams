@@ -1,0 +1,66 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace _3.Hero_Recruitment
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Dictionary<string, List<string>> heros = new Dictionary<string, List<string>>();
+
+            while (true)
+            {
+                string input = Console.ReadLine();
+                if (input == "End")
+                { break; }
+                string[] tokens = input.Split();
+                string name = tokens[1];
+                switch (tokens[0])
+                {
+                    case "Enroll":
+                        if (!heros.ContainsKey(name))
+                        {
+                            heros.Add(name, new List<string>());
+                        }
+                        else { Console.WriteLine($"{name} is already enrolled."); }
+                        break;
+                    case "Learn":
+                        if (heros.ContainsKey(name))
+                        {if (heros[name].Contains(tokens[2]))
+                            {
+                                Console.WriteLine($"{name} has already learnt {tokens[2]}.");
+                            }
+                            else
+                            { heros[name].Add(tokens[2]); }
+                        }
+                        else { Console.WriteLine($"{name} doesn't exist."); }
+                        break;
+                    case "Unlearn":
+                        if (heros.ContainsKey(name))
+                        {
+                            if (heros[name].Contains(tokens[2]))
+                            {
+                                heros[name].Remove(tokens[2]);
+                            }
+                            else
+                            { Console.WriteLine($"{name} doesn't know {tokens[2]}."); }
+                        }
+                        else { Console.WriteLine($"{name} doesn't exist."); }
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+
+            Console.WriteLine("Heroes:");
+            foreach (var item in heros.OrderBy(x=>x.Key))
+            {
+                Console.WriteLine($"== {item.Key}: " + String.Join(", ",item.Value));
+
+            }
+        }
+    }
+}
