@@ -1,0 +1,51 @@
+using System;
+using System.Text.RegularExpressions;
+
+namespace _02.Message_Translator
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = int.Parse(Console.ReadLine());
+            for (int i = 0; i < n; i++)
+            {
+                string input = Console.ReadLine();
+                Regex regex = new Regex(@"!([A-Z][a-z]+)!:\[([A-z]+)\]");
+                MatchCollection matches = regex.Matches(input);
+                int count = 0;
+                string command = "";
+                string nmb = "";
+                bool valid = false;
+                foreach (Match item in matches)
+                {
+                    command = item.Groups[1].Value;
+                    
+                    string cur = item.Groups[2].Value;
+                    if (command.Length >= 3 && cur.Length >= 8)
+                    { valid = true; }
+                    else
+                    { Console.WriteLine("The message is invalid");
+                       
+                    }
+                    for (int j = 0; j < cur.Length; j++)
+                    {
+                        int ascii = ((int)cur[j]);
+                        nmb += $"{ascii} ";
+                    }
+                     
+                    count++;
+                }
+                
+                if (count == 0)
+                { Console.WriteLine("The message is invalid"); }
+                if (valid == true)
+                { Console.WriteLine($"{command}: {nmb}"); }
+              
+                valid = false;
+               
+            }
+           
+        }
+    }
+}
