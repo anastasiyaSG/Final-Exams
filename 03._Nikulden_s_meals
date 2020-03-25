@@ -1,0 +1,73 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace _03._Nikulden_s_meals
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Dictionary<string, List<string>> all = new Dictionary<string, List<string>>();
+            int unliked = 0;
+            while (true)
+            {
+                string input = Console.ReadLine();
+                if (input == "Stop")
+                { break; }
+                string[] token = input.Split("-");
+                string guest = token[1];
+                string meal = token[2];
+                switch (token[0])
+                {
+
+                    case "Like":
+                        if (all.ContainsKey(guest))
+                        {
+                            if (all[guest].Contains(meal))
+                            { continue; }
+                            else
+                            {
+                                all[guest].Add(meal);
+                            }
+                        }
+                        else
+                        { all[guest] = new List<string>();
+                            all[guest].Add(meal);
+
+                        }
+                        break;
+
+                    case "Unlike":
+                        if (all.ContainsKey(guest))
+                        {
+                            if (all[guest].Contains(meal))
+                            { all[guest].Remove(meal);
+                                unliked++;
+                                Console.WriteLine($"{guest} doesn't like the {meal}.");
+                            }
+                            else
+                            {
+                                Console.WriteLine($"{guest} doesn't have the {meal} in his/her collection.");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine($"{guest} is not at the party.");
+
+                        }
+
+
+                        break;
+                    default:
+                        break;
+                }
+            }
+            foreach (var item in all.OrderByDescending(x=>x.Value.Count).ThenBy(x=>x.Key))
+            {
+                Console.WriteLine(item.Key+": "+String.Join(", ",item.Value));
+            }
+            Console.WriteLine($"Unliked meals: {unliked}");
+        }
+    }
+}
