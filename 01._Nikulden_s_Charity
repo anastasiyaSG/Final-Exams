@@ -1,0 +1,87 @@
+using System;
+using System.Linq;
+
+namespace _01._Nikulden_s_Charity
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string word = Console.ReadLine();
+            while (true)
+            {
+                string input = Console.ReadLine();
+                if (input == "Finish")
+                { break; }
+                string[] token = input.Split();
+
+                switch (token[0])
+                {
+                    case "Replace":
+                        char current = char.Parse(token[1]);
+                        char newChar = char.Parse(token[2]);
+                        word = word.Replace(current, newChar);
+                        Console.WriteLine(word);
+                        break;
+                    case "Cut":
+                        int start = int.Parse(token[1]);
+                        int end = int.Parse(token[2]);
+                        if (start >= 0 && end>0 && end <= word.Length - 1)
+                        {
+                         
+                            string startW = word.Substring(0,start);
+                            string endW = word.Substring(end+1);
+                            //word = word.Substring(start, end - start);
+                            //Console.WriteLine(word);
+                            word = startW + endW;
+                            Console.WriteLine(word);
+                        }
+                        else
+                        { Console.WriteLine("Invalid indexes!"); }
+
+                        break;
+                    case "Make":
+                        if (token[1] == "Upper")
+                        { word = word.ToUpper();
+                            Console.WriteLine(word);
+                        }
+                        else if(token[1]=="Lower")
+                                { word = word.ToLower();
+                            Console.WriteLine(word);
+                        }
+                        break;
+                    case "Check":
+                        string check = token[1];
+                        if (word.Contains(check))
+                        { Console.WriteLine($"Message contains {check}"); }
+                        else
+                        { Console.WriteLine($"Message doesn't contain {check}"); }
+
+                        break;
+                    case "Sum":
+                        int startS = int.Parse(token[1]);
+                        int endS = int.Parse(token[2]);
+                        if (startS >= 0 && endS>0 && endS <= word.Length - 1)
+                        {
+                            int sum = 0;
+                            for (int i = startS; i <= endS; i++)
+                            {
+                                int cur = ((int)word[i]);
+                                sum += cur;
+
+                            }
+                            Console.WriteLine(sum);
+                        }
+                        else
+                        { Console.WriteLine("Invalid indexes!"); }
+
+
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+        }
+    }
+}
