@@ -1,0 +1,74 @@
+using System;
+using System.Linq;
+
+namespace _01._Email_Validator
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string word = Console.ReadLine();
+            while (true)
+            {
+
+                string input = Console.ReadLine();
+                if (input == "Complete")
+                { break; }
+                string[] token = input.Split(" ").ToArray();
+                switch (token[0])
+                {
+                    case "Make":
+                        if (token[1] == "Upper")
+                        {
+                            word = word.ToUpper();
+                            Console.WriteLine(word);
+                        }
+                        else
+                        {
+                            word = word.ToLower();
+                            Console.WriteLine(word);
+                        }
+
+
+                        break;
+                    case "GetDomain":
+                        int count = int.Parse(token[1]);
+                        string print = word.Substring(word.Length  - count);
+                        Console.WriteLine(print);
+
+                        break;
+                    case "GetUsername":
+                        int index = word.IndexOf('@') - 1;
+                        if (index < 0)
+                        { Console.WriteLine($"The email {word} doesn't contain the @ symbol."); }
+                        else
+                        {
+                            string name = word.Substring(0, index+1);
+                            Console.WriteLine(name);
+                        }
+
+                        break;
+                    case "Replace":
+                        char forReplace = char.Parse(token[1]);
+                        word = word.Replace(forReplace, '-');
+                        Console.WriteLine(word);
+                        break;
+                    case "Encrypt":
+                        string xx = "";
+                        foreach (var item in word.ToCharArray())
+                        {
+                            int cur = ((int)item);
+                            xx += $"{cur} ";
+                            
+                        }
+                        Console.WriteLine(xx);
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+        }
+    }
+}
+
