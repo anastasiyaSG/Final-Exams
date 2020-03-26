@@ -1,0 +1,69 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace _03._Inbox_Manager
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Dictionary<string, List<string>> heros = new Dictionary<string, List<string>>();
+
+            while (true)
+            {
+                string input = Console.ReadLine();
+                if (input == "Statistics")
+                { break; }
+                string[] tokens = input.Split("->");
+                string name = tokens[1];
+                switch (tokens[0])
+                {
+                    case "Add":
+                        if (!heros.ContainsKey(name))
+                        {
+                            heros.Add(name, new List<string>());
+                        }
+                        else { Console.WriteLine($"{name} is already registered"); }
+                        break;
+                    case "Send":
+                        if (heros.ContainsKey(name))
+                        {
+                            if (heros[name].Contains(tokens[2]))
+                            {
+                                heros[name].Add(tokens[2]);
+                            }
+                            else
+                            { heros[name].Add(tokens[2]); }
+                        }
+                        else { Console.WriteLine($"{name} doesn't exist."); }
+                        break;
+                    case "Delete":
+                        if (heros.ContainsKey(name))
+                        {
+                            heros.Remove(name);
+                        }
+                                                    
+                        else { Console.WriteLine($"{name} not found!"); }
+                        break;
+
+                }
+
+            }
+
+            int count = heros.Keys.Count;
+            Console.WriteLine($"Users count: {count}");
+
+            foreach (var item in heros.OrderByDescending(x => x.Value.Count).ThenBy(x => x.Key))
+            {
+                Console.WriteLine(item.Key);
+                foreach (var stuff in item.Value)
+                {
+                    Console.WriteLine($"- {stuff}");
+
+                }
+
+            }
+        }
+    }
+}
