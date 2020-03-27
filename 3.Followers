@@ -1,0 +1,63 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace _3.Followers
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Dictionary<String, int[]> followers = new Dictionary<string, int[]>();
+
+            while (true)
+            {
+                string command = Console.ReadLine();
+                if (command == "Log out")
+                { break; }
+                string[] split = command.Split(": ");
+                if (command.Contains("New follower"))
+                {if (!followers.ContainsKey(split[1]))
+                    { followers.Add(split[1], new int[2] { 0,0});
+                    }
+                    else { continue; }
+                }
+                if (command.Contains("Like:"))
+                {
+                    if (!followers.ContainsKey(split[1]))
+                    {
+                        followers.Add(split[1], new int[2] { 0, 0 });
+                    }
+                    followers[split[1]][0] += int.Parse(split[2]); 
+                }
+                if (command.Contains("Comment:"))
+                {
+                    if (!followers.ContainsKey(split[1]))
+                    {
+                        followers.Add(split[1], new int[2] { 0, 0 });
+                    }
+                    followers[split[1]][1] += 1 ;
+                }
+                if (command.Contains("Blocked:"))
+                {
+                    if (!followers.ContainsKey(split[1]))
+                    {
+                        Console.WriteLine($"{split[1]} doesn't exist.");
+                    }
+                    else { followers.Remove(split[1]); }
+                }
+               
+            }
+
+            int count = followers.Keys.Count;
+            Console.WriteLine($"{count} followers");
+            foreach (var item in followers.OrderByDescending(x=>x.Value[0]).ThenBy(x=>x.Key))
+
+            {
+                int sum = item.Value[0] + item.Value[1];
+                Console.WriteLine(item.Key+": "+sum);
+
+            }
+        }
+    }
+}
