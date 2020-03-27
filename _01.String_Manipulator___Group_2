@@ -1,0 +1,69 @@
+using System;
+using System.Linq;
+
+namespace _01.String_Manipulator___Group_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string wordH = Console.ReadLine();
+            while (true)
+            {
+
+                string input = Console.ReadLine();
+                if (input == "Done")
+                { break; }
+                string[] token = input.Split(" ").ToArray();
+                switch (token[0])
+                {
+                    case "Uppercase":
+                       wordH = wordH.ToUpper(); 
+                        Console.WriteLine(wordH);
+
+                        break;
+                    case "Cut":
+                        int start = int.Parse(token[1]);
+                        int lenght = int.Parse(token[2]);
+                        wordH = wordH.Substring(start, lenght);
+                        Console.WriteLine(wordH);
+                        break;
+
+
+                    case "Change":
+                        char old = char.Parse(token[1]);
+                        char newR = char.Parse(token[2]);
+
+                        wordH = wordH.Replace(old, newR);
+                        Console.WriteLine(wordH);
+                        break;
+                    case "Includes":
+                        string chek = token[1];
+                        if (wordH.Contains(chek))
+                        { Console.WriteLine("True"); }
+                        else
+                        { Console.WriteLine("False"); }
+                                               break;
+                    case "End":
+
+                        string x = token[1];
+                        if (wordH.EndsWith(x))
+                        {
+                             Console.WriteLine("True"); }
+                            else
+                            { Console.WriteLine(    "False"); } 
+                        break;
+                    case "FindIndex":
+                        char h = char.Parse(token[1]);
+                        int index = wordH.IndexOf(h);
+                        Console.WriteLine(index);
+                        break;
+                    default:
+
+                        break;
+                }
+
+            }
+        }
+    }
+}
