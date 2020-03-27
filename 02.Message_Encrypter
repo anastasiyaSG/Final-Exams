@@ -1,0 +1,29 @@
+using System;
+using System.Text.RegularExpressions;
+
+namespace _02.Message_Encrypter
+{
+    class Program
+    {
+        static void Main(string[] args)
+        { int n = int.Parse(Console.ReadLine());
+            for (int i = 0; i < n; i++)
+            {
+                string input = Console.ReadLine();
+
+                Regex regex = new Regex(@"^([*|@])([A-Z][a-z]{2,})\1: \[([\D])\]\|\[([\D])\]\|\[([\D])\]\|$");
+                Match match = regex.Match(input);
+                if (match.Success)
+                { string name = match.Groups[2].Value;
+                    char one = char.Parse(match.Groups[3].Value);
+                    char two = char.Parse(match.Groups[4].Value);
+                   char three = char.Parse(match.Groups[5].Value);
+                    Console.WriteLine(name+": "+((int)one)+  " "+((int)two) + " "+((int)three));
+                }
+                else
+                { Console.WriteLine("Valid message not found!"); }
+
+            }
+        }
+    }
+}
