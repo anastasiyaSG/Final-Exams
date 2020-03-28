@@ -1,0 +1,82 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace _03.Battle_Manager
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Dictionary<string, int[]> all = new Dictionary<string, int[]>();
+
+            while (true)
+            {
+                string input = Console.ReadLine();
+                if (input == "Results")
+                { break; }
+                string [] token = input.Split(":");
+                switch (token[0])
+                {
+                    case "Add":
+                        if (!all.ContainsKey(token[1]))
+                        { all[token[1]] = new int[2] { 0,0}; }
+                        all[token[1]][0] += int.Parse(token[2]);
+                        all[token[1]][1] += int.Parse(token[3]);
+
+                        break;
+                    case "Attack":
+                        if (all.ContainsKey(token[1]) && all.ContainsKey(token[2]))
+                        { int damage = int.Parse(token[3]);
+                            all[token[2]][0] -= damage;
+                            all[token[1]][1] -= 1;
+                            if (all[token[2]][0] <= 0 )
+                            {
+                                Console.WriteLine($"{token[2]} was disqualified!");
+                                all.Remove(token[2]);
+
+                            }
+                            if(all[token[1]][1] <= 0)
+                                {
+                                Console.WriteLine($"{token[1]} was disqualified!");
+                                all.Remove(token[1]);
+                            }
+                            else
+                            { continue; }
+                          
+                        }
+                        else
+                        { continue; }
+                        break;
+                    case "Delete":
+                        if (token[1] == "All")
+                        {
+                            foreach (var item in all)
+                            {
+                                all.Remove(item.Key);
+
+                            }
+                        }
+                        if (all.ContainsKey(token[1]))
+                        { all.Remove(token[1]); }
+                        else
+                        { continue; }
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+
+
+            Console.WriteLine($"People count: {all.Keys.Count}");
+
+            foreach (var item in all.OrderByDescending(x=>x.Value[0]).ThenBy(x=>x.Key))
+            {
+                Console.WriteLine(item.Key+" - "+item.Value[0]+" - "+item.Value[1]);
+
+            }
+
+        }
+    }
+}
