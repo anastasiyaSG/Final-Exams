@@ -1,0 +1,83 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace _03.Messages_Manager
+
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Dictionary<string, int[]> all = new Dictionary<string, int[]>();
+            int n = int.Parse(Console.ReadLine());
+            while (true)
+            {
+                string[] input = Console.ReadLine().Split("=");
+                if (input[0] == "Statistics")
+                { break;
+                }
+                switch (input[0])
+
+                {
+                    case "Add":
+                        if (!all.ContainsKey(input[1]))
+                        {
+                            all[input[1]] = new int[2] { int.Parse(input[2]), int.Parse(input[3]) };
+                        }
+                        else
+                        { continue; }
+                        break;
+                    case "Message":
+                        string sender = input[1];
+                        string receiver = input[2];
+                        if (all.ContainsKey(sender) && all.ContainsKey(receiver))
+                        {
+                            all[sender][0] += 1;
+                            all[receiver][1] += 1;
+                            if (all[sender][0] + all[sender][1] >= n)
+                            {
+                                Console.WriteLine($"{sender} reached the capacity!");
+                                all.Remove(sender);
+                            }
+
+                            if (all[receiver][0] + all[receiver][1] >=n)
+                            {
+                                Console.WriteLine($"{receiver} reached the capacity!");
+                                all.Remove(receiver);
+                            }
+                        }
+                        else
+                        { continue; }
+                        break;
+                    case "Empty":
+                        if (all.ContainsKey(input[1]))
+                        { all.Remove(input[1]); }
+                        if (input[1] == "All")
+                        {
+                            foreach (var item in all)
+                            {
+                                all.Remove(item.Key);
+                            }
+                        }
+                        else
+                        { continue; }
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
+
+            Console.WriteLine($"Users count: {all.Keys.Count}");
+            
+            foreach (var item in all.OrderByDescending(x=>x.Value[1]).ThenBy(x=>x.Key))
+            {
+                int sum = item.Value[0] + item.Value[1];
+                Console.WriteLine(item.Key+" - "+sum  );
+
+            }
+        }
+    }
+}
