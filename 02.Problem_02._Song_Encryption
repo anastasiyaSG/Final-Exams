@@ -1,0 +1,107 @@
+using System;
+using System.Text.RegularExpressions;
+
+namespace _02.Problem_02._Song_Encryption
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Regex group = new Regex(@"^([A-Z][a-z]+[\sa-z']+)$");
+            Regex song = new Regex(@"^([A-Z\s]+)$");
+
+            while (true)
+            {
+                string input = Console.ReadLine();
+                    if (input == "end")
+                { break; }
+
+                string[] token = input.Split(":");
+
+                Match matchgroup = group.Match(token[0]);
+                Match matchsong = song.Match(token[1]);
+                if (matchgroup.Success && matchsong.Success)
+                {
+                    string singer = matchgroup.Groups[1].Value;
+                    string songg = matchsong.Groups[1].Value;
+                    string newSinger = "";
+                    string newSong = "";
+
+                    int key = singer.Length;
+                    for (int i = 0; i < singer.Length; i++)
+                    {
+                        char current = singer[i];
+                        if (char.IsLower(current))
+                        {
+                            int c = ((int)current);
+                            int n = 0;
+                            if (c >= 97 && c <= 122)
+                            {
+                                n = c + key;
+                                if (n > 122)
+                                { n -= 26; }
+                            }
+                            newSinger += ((char)n);
+                        }
+                        if (char.IsUpper(current))
+                        {
+                            int c = ((int)current);
+                            int n = 0;
+                            if (c >= 65 && c <= 90)
+                            {
+                                n = c + key;
+                                if (n > 90)
+                                { n -= 26; }
+                            }
+                            newSinger += ((char)n);
+                        }
+                        if (current == ' ')
+                        { newSinger += ' '; }
+                        if ((int)current == 39)
+                        { newSinger += ((char)39); }
+
+
+                    }
+                    for (int i = 0; i < songg.Length; i++)
+                    {
+                        char current = songg[i];
+                        if (char.IsLower(current))
+                        {
+                            int c = ((int)current);
+                            int n = 0;
+                            if (c >= 97 && c <= 122)
+                            {
+                                n = c + key;
+                                if (n > 122)
+                                { n -= 26; }
+                            }
+                            newSong += ((char)n);
+                        }
+                        if (char.IsUpper(current))
+                        {
+                            int c = ((int)current);
+                            int n = 0;
+                            if (c >= 65 && c <= 90)
+                            {
+                                n = c + key;
+                                if (n > 90)
+                                { n -= 26; }
+                            }
+                            newSong += ((char)n);
+                        }
+                        if (current == ' ')
+                        { newSong += ' '; }
+                        if ((int)current == 39)
+                        { newSong += ((char)39); }
+
+
+                    }
+                    Console.WriteLine($"Successful encryption: {newSinger}@{newSong}");
+                }
+                else
+                { Console.WriteLine("Invalid input!"); }
+
+            }
+        }
+    }
+}
