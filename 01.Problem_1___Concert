@@ -1,0 +1,97 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace _01.Problem_1___Concert
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Dictionary<string, List<string>> brandAndSong = new Dictionary<string, List<string>>();
+            Dictionary<string, int> brandAndTime = new Dictionary<string, int>();
+
+            while (true)
+            {
+                string input = Console.ReadLine();
+                if (input == "start of concert")
+                { break; }
+                string[] token = input.Split("; ");
+                switch (token[0])
+                {
+                    case "Add":
+                        string[] songs = token[2].Split(", ");
+                        if (!brandAndSong.ContainsKey(token[1]))
+                        {
+                            brandAndSong[token[1]] = new List<string>();
+
+                            for (int i = 0; i < songs.Length; i++)
+                            {
+                                brandAndSong[token[1]].Add(songs[i]);
+                            }
+                            continue;
+                        }
+                        else
+                        {
+                            for (int i = 0; i < songs.Length; i++)
+                            {if (!brandAndSong[token[1]].Contains(songs[i]))
+                                { brandAndSong[token[1]].Add(songs[i]); }
+                            }
+                        }
+                        break;
+                    case"Play":
+                        if (!brandAndSong.ContainsKey(token[1]))
+                        { brandAndSong[token[1]] = new List<string>();
+                            if (!brandAndTime.ContainsKey(token[1]))
+                            { brandAndTime[token[1]] = int.Parse(token[2]); }
+                            else
+                            { brandAndTime[token[1]] += int.Parse(token[2]); }
+                        }
+                        else
+                        { if (!brandAndTime.ContainsKey(token[1]))
+                                { brandAndTime[token[1]] = int.Parse(token[2]); }
+                            else
+                            { brandAndTime[token[1]] += int.Parse(token[2]); } }
+                        break;
+
+                    default:
+                        break;
+                }
+
+
+            }
+            int total = 0;
+            foreach (var item in brandAndTime)
+            {
+                total += item.Value;
+
+            }
+
+            Console.WriteLine($"Total time: {total}");
+            foreach (var item in brandAndTime.OrderByDescending(x=>x.Value).ThenBy(x=>x.Key))
+            {
+                Console.WriteLine(item.Key +" -> "+item.Value);
+
+            }
+            string first = "";
+            foreach (var item in brandAndTime.OrderByDescending(x => x.Value).Take(1))
+            {
+                first = item.Key;
+
+            }
+            Console.WriteLine(  first);
+            foreach (var item in brandAndSong[first])
+            {
+                Console.WriteLine($"=> {item}");
+
+            }
+                  
+
+                
+
+
+            
+        
+        }
+    }
+}
