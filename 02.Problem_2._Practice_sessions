@@ -1,0 +1,62 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace _02.Problem_2._Practice_sessions
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Dictionary<string, List<string>> roads = new Dictionary<string, List<string>>();
+            while (true)
+            {
+                string input = Console.ReadLine();
+                if (input == "END")
+                { break; }
+                string[] tokens = input.Split("->") ;
+                switch (tokens[0])
+                {
+                    case "Add":
+                        if (!roads.ContainsKey(tokens[1]))
+                        { roads[tokens[1]] = new List<string>();
+                        }
+                        roads[tokens[1]].Add(tokens[2]);
+
+                        break;
+                    case "Move":
+                        if (roads[tokens[1]].Contains(tokens[2]))
+                        {
+                            roads[tokens[3]].Add(tokens[2]);
+                            roads[tokens[1]].Remove(tokens[2]);
+                        }
+                        else
+                        { continue; }
+                        break;
+                    case "Close":
+                        if (roads.ContainsKey(tokens[1]))
+                        { roads.Remove(tokens[1]); }
+                        else
+                        { continue; }
+                        break;
+                    default:
+                        break;
+                }
+
+
+
+            }
+            Console.WriteLine("Practice sessions:");
+            foreach (var item in roads.OrderByDescending(x=>x.Value.Count).ThenBy(x=>x.Key))
+            {
+                Console.WriteLine(item.Key);
+                foreach (var stuff in item.Value)
+                {
+                    Console.WriteLine("++"+stuff);
+                }
+
+            }
+
+        }
+    }
+}
