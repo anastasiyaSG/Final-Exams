@@ -1,0 +1,46 @@
+using System;
+using System.Text.RegularExpressions;
+
+namespace _03.The_Isle_of_Man_TT_Race
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Regex regex = new Regex(@"([#$%*&])(?<name>[A-z]+)(\1)=(?<lenght>\d+)!!(?<code>.+)");
+                //@"([#$%*&])([\w]+)(\1)=([0-9]+)!!([.+])");
+            while (true)
+            {
+                string input = Console.ReadLine();
+
+                Match match = regex.Match(input);
+                if (match.Success)
+                {
+                    string name = match.Groups["name"].Value;
+                    int lenght = int.Parse(match.Groups["lenght"].Value);
+                    string message = match.Groups["code"].Value;
+                    string theMessage = "";
+                    if (lenght == message.Length)
+
+                    {
+                        for (int i = 0; i < message.Length; i++)
+                        {
+                            int curr = ((int)message[i]) + lenght;
+                            char c = ((char)curr);
+                            theMessage += c;
+
+
+                        }
+                        Console.WriteLine($"Coordinates found! {name} -> {theMessage}");
+                        break;
+                    }
+                    else
+                    { Console.WriteLine("Nothing found!"); }
+                }
+
+                else
+                { Console.WriteLine("Nothing found!"); }
+            }
+        }
+    }
+}
