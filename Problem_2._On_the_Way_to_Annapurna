@@ -1,0 +1,64 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Problem_2._On_the_Way_to_Annapurna
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+
+            Dictionary<string, List<string>> items = new Dictionary<string, List<string>>();
+
+            while (true)
+            {
+                string input = Console.ReadLine();
+                if (input == "End")
+                { break; }
+                string[] token = input.Split("->");
+                switch (token[0])
+                {
+                    case "Add":
+                        string store = token[1];
+
+                        if (token[2].Contains(','))
+                        {
+                            string[] item = token[2].Split(",");
+                            if (!items.ContainsKey(store))
+                            { items[store] = new List<string>(); }
+                            for (int i = 0; i < item.Length; i++)
+                            {
+                                items[store].Add(item[i]);
+                            }
+                            
+                        }
+                        else
+                        { if (!items.ContainsKey(store))
+                            { items[store] = new List<string>(); }
+                            items[store].Add(token[2]);
+                        }
+                        break;
+                    case "Remove":
+                        if (items.ContainsKey(token[1]))
+                        { items.Remove(token[1]); }
+                        else
+                        { continue; }
+                        break;
+                    default:
+                        break;
+                }
+            }
+            Console.WriteLine("Store list:");
+            foreach (var item in items.OrderByDescending(x=>x.Value.Count).ThenByDescending(x=>x.Key))
+            {
+                Console.WriteLine(item.Key);
+                foreach (var stuff in item.Value)
+                {
+                    Console.WriteLine($"<<{stuff}>>");
+
+                }
+            }
+        }
+    }
+}
