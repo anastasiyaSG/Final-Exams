@@ -1,0 +1,59 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Problem_1._Dictionary
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Dictionary<string, List<string>> dictionary = new Dictionary<string, List<string>>();
+            string input = Console.ReadLine();
+            string[] wordAndDef = input.Split(" | ");
+            for (int i = 0; i < wordAndDef.Length; i++)
+            {
+                string[] word = wordAndDef[i].Split(": ");
+                string currentW = word[0];
+                string currentD = word[1];
+                
+                    if (!dictionary.ContainsKey(currentW))
+                    { dictionary[currentW] = new List<string>(); }
+                    dictionary[currentW].Add(currentD);
+                
+
+
+            }
+            string[] check = Console.ReadLine().Split(" | ");
+            for (int i = 0; i < check.Length; i++)
+            {
+                if (dictionary.ContainsKey(check[i]))
+                { Console.WriteLine(check[i]);
+                    foreach (var item in dictionary[check[i]].OrderByDescending(x=>x.Length))
+                    {
+                        
+                            Console.WriteLine(" -"+item);
+                        
+
+                    }
+                }
+            }
+            string last = Console.ReadLine();
+            if (last == "List")
+            {
+                
+                foreach (var item in dictionary.OrderBy(x => x.Value.Count).ThenBy(x=>x.Key))
+                {
+                    Console.Write(item.Key+" ");
+
+                }
+                Console.WriteLine();
+            }
+           
+            else
+            { return; }
+
+
+        }
+    }
+}
